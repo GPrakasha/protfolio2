@@ -1,0 +1,62 @@
+@use "sass:color";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: 'Clash Grotesk', sans-serif;
+  box-sizing: border-box;
+  font-size: 16px;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+}
+
+$lightened-color: color.adjust(#5753C9, $lightness: 3%);
+$darkened-color: color.adjust(#5753C9, $lightness: -4%);
+
+:root {
+  --secondary: #5753C9;
+  --primary: #A0AFFF;
+  --tertiary: #F3A24C;
+  --light-secondary: #{$lightened-color};
+  --dark-secondary: #{$darkened-color};
+}
+
+body {
+  // background-image: linear-gradient(-225deg, #3D4E81 0%, #5753C9 48%, #6E7FF3 100%);
+  background-color: var(--secondary);
+  margin: 0;
+  padding: 0;
+}
+
+.scroll-snap-container {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+.scroll-snap-container > section {
+  scroll-snap-align: center;
+  height: 100vh;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    display: none;
+  }
+
+  &::-webkit-scrollbar-track {
+    display: none;
+  }
+}
