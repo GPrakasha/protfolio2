@@ -25,9 +25,7 @@ function Home() {
 		<div className="scroll-snap-container hide-scrollbar">
 			<IntroSection id={NAV_ITEM_ID.INTRO} />
 			<AboutMe id={NAV_ITEM_ID.ABOUT} />
-			<section>Skills & tec</section>
 			<section>Projects</section>
-			<section>Exp & timeline</section>
 			<section>Blog</section>
 			<section>Contact</section>
 		</div>
