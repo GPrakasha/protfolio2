@@ -6,11 +6,17 @@ import {
   Environment,
 } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
-import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import styled from "styled-components";
 import { Points, BufferGeometry, Material } from "three";
-import { motion } from "framer-motion";
-import { ChevronDownIcon } from '@heroicons/react/24/solid'
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDownIcon } from "@heroicons/react/24/solid";
 
 const AboutMeContainer = styled.section`
   display: flex;
@@ -131,7 +137,7 @@ const TimeLineCardDot = styled(motion.div)<{ isOdd?: boolean }>`
 `;
 
 interface Company {
-    id: number;
+  id: number;
   isCurrent?: boolean;
   name: string;
   role: string;
@@ -141,19 +147,23 @@ interface Company {
 }
 
 const Chip = ({ label }: { label: string }) => {
-  return <div className="rounded-md px-2 py-1 text-tertiary-color border-amber-200/50 border-2 text-sm bg-indigo-950">{label}</div>;
+  return (
+    <div className="rounded-md px-2 py-1 text-tertiary-color border-amber-200/50 border-2 text-sm bg-indigo-950">
+      {label}
+    </div>
+  );
 };
 
-const TimeLineStyledCard = styled(motion.div)<{isOdd?: boolean}>`
-    width: 300px;
-    background-color: var(--secondary);
-    border-radius: 10px;
-    position: absolute;
-    top: 0;
-    transform: translateY(-50%);
-    border: 1px solid white;
+const TimeLineStyledCard = styled(motion.div)<{ isOdd?: boolean }>`
+  width: 300px;
+  background-color: var(--secondary);
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  transform: translateY(-50%);
+  border: 1px solid white;
 
-    ${({ isOdd }) => (isOdd ? "left" : "right")}: 36px;
+  ${({ isOdd }) => (isOdd ? "left" : "right")}: 36px;
 `;
 
 const TimeLineCardArrow = styled.div<{ isOdd?: boolean }>`
@@ -166,36 +176,47 @@ const TimeLineCardArrow = styled.div<{ isOdd?: boolean }>`
     isOdd
       ? "polygon(100% 0%, 0% 50%, 100% 100%)"
       : "polygon(0% 0%, 100% 50%, 0% 100%)"};
-${({isOdd}) => (isOdd ? 'left' : 'right')}: -16px;
+  ${({ isOdd }) => (isOdd ? "left" : "right")}: -16px;
 `;
 
-type ExpContentType = {selectedId: number; setSelectedId: Function};
+type ExpContentType = { selectedId: number; setSelectedId: Function };
 
 const DescriptionVariant = {
-    hidden: {
-        opacity: 0,
-        minHeight: 0,
-        transition: {
-            duration: .5
-        }
+  hidden: {
+    opacity: 0,
+    height: 0,
+    transition: {
+      duration: 0.5,
     },
-    visible: {
-        opacity: 1,
-        minHeight: '60px',
-        transition: {
-            duration: .5
-        }
-    }
-}
+  },
+  visible: {
+    opacity: 1,
+    height: "auto",
+    transition: {
+      duration: 0.5,
+    },
+  },
+};
 
-const TimeLineCard = ({ company, isOdd }: { company: Company, isOdd: boolean }) => {
-    const {selectedId, setSelectedId} = useContext<ExpContentType>(ExpContext);
+const TimeLineCard = ({
+  company,
+  isOdd,
+}: {
+  company: Company;
+  isOdd: boolean;
+}) => {
+  const { selectedId, setSelectedId } = useContext<ExpContentType>(ExpContext);
   return (
     <TimeLineStyledCard
       isOdd={isOdd}
       className="flex flex-col items-center text-white p-3"
     >
-      <div className="flex w-full items-center cursor-pointer" onClick={() => setSelectedId(selectedId === company.id ? -1 : company.id)}>
+      <div
+        className="flex w-full items-center cursor-pointer"
+        onClick={() =>
+          setSelectedId(selectedId === company.id ? -1 : company.id)
+        }
+      >
         <div className="flex flex-col w-full justify-start">
           <div className="flex items-center justify-start">
             <h3 className="text-xl">{company.name}</h3>
@@ -203,15 +224,22 @@ const TimeLineCard = ({ company, isOdd }: { company: Company, isOdd: boolean }) 
           </div>
           <p className="text-sm text-white/50">{company.duration}</p>
         </div>
-    
+
         <ChevronDownIcon className="size-4 ms-auto" />
       </div>
-        {
-           selectedId ===  company.id && 
-            <motion.span initial="hidden" whileInView="visible" exit="hidden" variants={DescriptionVariant} className="text-sm mb-1">
-                {wordAnimation(company.description, 'text-sm text-white/80')}
-            </motion.span>
-        }
+      <AnimatePresence>
+        {selectedId === company.id && (
+          <motion.span
+            initial="hidden"
+            whileInView="visible"
+            exit="hidden"
+            variants={DescriptionVariant}
+            className="text-sm mb-1"
+          >
+            {wordAnimation(company.description, "text-sm text-white/80")}
+          </motion.span>
+        )}
+      </AnimatePresence>
       <TimeLineCardArrow isOdd={isOdd} />
       <div className="flex flex-wrap gap-2 mt-2">
         {company.skills.map((skill) => (
@@ -280,13 +308,16 @@ const wordAnimation = (words, textClasses) => {
   ));
 };
 
-const ExpContext = createContext<ExpContentType>({selectedId: 0, setSelectedId: () => {}});
+const ExpContext = createContext<ExpContentType>({
+  selectedId: 0,
+  setSelectedId: () => {},
+});
 // Main AboutMe component
 export default function AboutMe({ id }: { id: string }) {
   const [selectedId, setSelectedId] = useState<number>(0);
   const companies: Company[] = [
     {
-        id: 0,
+      id: 0,
       isCurrent: true,
       name: "Razorpay",
       role: "Senior Frontend Engineer",
@@ -296,7 +327,7 @@ export default function AboutMe({ id }: { id: string }) {
       skills: ["Javascript", "Typescript", "React", "Angular", "Jest"],
     },
     {
-        id: 1,
+      id: 1,
       isCurrent: false,
       name: "Poshvine",
       role: "Software Engineer",
@@ -306,7 +337,7 @@ export default function AboutMe({ id }: { id: string }) {
       skills: ["StencilJs", "Angular", "Javascript", "SCSS"],
     },
     {
-        id: 2,
+      id: 2,
       isCurrent: false,
       name: "Akrity Computing",
       role: "Software Engineer",
@@ -316,7 +347,7 @@ export default function AboutMe({ id }: { id: string }) {
       skills: ["HTML", "React", "Bootstrap", "Ruby on Rails"],
     },
     {
-        id: 3,
+      id: 3,
       isCurrent: false,
       name: "Akrity Computing",
       role: "Intern",
@@ -326,7 +357,7 @@ export default function AboutMe({ id }: { id: string }) {
       skills: ["HTML5", "React", "CSS", "Ruby on Rails"],
     },
     {
-        id: 4,
+      id: 4,
       isCurrent: false,
       name: "Zwayam",
       role: "Intern",
@@ -348,7 +379,7 @@ export default function AboutMe({ id }: { id: string }) {
         whileInView="visible"
         viewport={{ once: false, amount: 0.5 }}
       >
-        {wordAnimation("My Work Experience", 'md:text-7xl text-4xl')}
+        {wordAnimation("My Work Experience", "md:text-7xl text-4xl")}
       </motion.h2>
 
       <TimeLineContainer
@@ -363,22 +394,21 @@ export default function AboutMe({ id }: { id: string }) {
           whileInView="visible"
           viewport={{ once: false, amount: 0.5 }}
         />
-        <ExpContext.Provider value={{
+        <ExpContext.Provider
+          value={{
             selectedId,
-            setSelectedId
-        }}>
-        {companies.map((company, index) => (
-          <motion.div
-            key={index}
-            className="me-auto my-auto"
-          >
-            <TimeLineCardDotContainer
-              company={company}
-              isOdd={isMobile ? true : index%2 === 0}
-              delay={index * 0.4}
-            />
-          </motion.div>
-        ))}
+            setSelectedId,
+          }}
+        >
+          {companies.map((company, index) => (
+            <motion.div key={index} className="me-auto my-auto">
+              <TimeLineCardDotContainer
+                company={company}
+                isOdd={isMobile ? true : index % 2 === 0}
+                delay={index * 0.4}
+              />
+            </motion.div>
+          ))}
         </ExpContext.Provider>
       </TimeLineContainer>
 
