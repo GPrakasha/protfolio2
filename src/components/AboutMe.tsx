@@ -51,7 +51,7 @@ const TimeLineContainerVariant = {
 const TimeLineContainer = styled(motion.div)`
   display: flex;
   height: 75vh;
-  width: 40%;
+  width: 30%;
   z-index: 2;
   position: relative;
   padding-left: 40px;
@@ -70,7 +70,6 @@ const TimeLine = styled(motion.div)`
   top: 10%;
   background-color: white;
   position: absolute;
-  z-index: 1;
   left: 50px;
 
   @media (max-width: 768px) {
@@ -120,12 +119,12 @@ const TimeLineCardDotContainer = ({
   isOdd: boolean;
 }) => {
   return (
-    <TimeLineCardDot>
+    <TimeLineCardDot index={company.id}>
       <TimeLineCard isOdd={isOdd} company={company} />
     </TimeLineCardDot>
   );
 };
-const TimeLineCardDot = styled(motion.div)<{ isOdd?: boolean }>`
+const TimeLineCardDot = styled(motion.div)<{ isOdd?: boolean, index: number }>`
   width: 20px;
   height: 20px;
   background-color: var(--dark-secondary);
@@ -133,7 +132,7 @@ const TimeLineCardDot = styled(motion.div)<{ isOdd?: boolean }>`
   position: relative;
   margin: auto;
   border: 4px solid white;
-  z-index: 1;
+  z-index: ${({index}) => 6 - index} ;
 `;
 
 interface Company {
