@@ -6,11 +6,11 @@ import {
   Environment,
 } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
-import React, { useEffect, useRef, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Points, BufferGeometry, Material } from "three";
 import { motion } from "framer-motion";
-import { s } from "framer-motion/client";
+import { ChevronDownIcon } from '@heroicons/react/24/solid'
 
 const AboutMeContainer = styled.section`
   display: flex;
@@ -23,7 +23,7 @@ const AboutMeContainer = styled.section`
   background-position: center;
   padding: 15px 0;
 
-  @media(max-width: 768px) {
+  @media (max-width: 768px) {
     flex-direction: column;
   }
 `;
@@ -51,7 +51,7 @@ const TimeLineContainer = styled(motion.div)`
   padding-left: 40px;
   align-items: start;
 
-  @media(max-width: 768px) {
+  @media (max-width: 768px) {
     width: 100%;
   }
 `;
@@ -67,7 +67,7 @@ const TimeLine = styled(motion.div)`
   z-index: 1;
   left: 50px;
 
-  @media(max-width: 768px) {
+  @media (max-width: 768px) {
     left: 50px;
   }
 `;
@@ -105,68 +105,120 @@ const ExpHeadingVariant = {
 
 // TimelineCardDot styles
 const TimeLineCardDotContainer = ({
-  isSelected,
   delay,
   company,
+  isOdd,
 }: {
-  isSelected: boolean;
   delay: number;
   company: Company;
+  isOdd: boolean;
 }) => {
   return (
     <TimeLineCardDot>
-      {isSelected && <TimeLineCard company={company} />}
+      <TimeLineCard isOdd={isOdd} company={company} />
     </TimeLineCardDot>
   );
 };
 const TimeLineCardDot = styled(motion.div)<{ isOdd?: boolean }>`
   width: 20px;
   height: 20px;
-  background-color: white;
+  background-color: var(--dark-secondary);
   border-radius: 50%;
   position: relative;
   margin: auto;
+  border: 4px solid white;
+  z-index: 1;
 `;
 
 interface Company {
+    id: number;
   isCurrent?: boolean;
   name: string;
   role: string;
   duration: string;
   description: string;
+  skills: string[];
 }
 
-const TimeLineCard = ({ company }: { company: Company }) => {
+const Chip = ({ label }: { label: string }) => {
+  return <div className="rounded-md px-2 py-1 text-tertiary-color border-amber-200/50 border-2 text-sm bg-indigo-950">{label}</div>;
+};
+
+const TimeLineStyledCard = styled(motion.div)<{isOdd?: boolean}>`
+    width: 300px;
+    background-color: var(--secondary);
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    transform: translateY(-50%);
+    border: 1px solid white;
+
+    ${({ isOdd }) => (isOdd ? "left" : "right")}: 36px;
+`;
+
+const TimeLineCardArrow = styled.div<{ isOdd?: boolean }>`
+  position: absolute;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 8px solid white;
+  clip-path: ${({ isOdd }) =>
+    isOdd
+      ? "polygon(100% 0%, 0% 50%, 100% 100%)"
+      : "polygon(0% 0%, 100% 50%, 0% 100%)"};
+${({isOdd}) => (isOdd ? 'left' : 'right')}: -16px;
+`;
+
+type ExpContentType = {selectedId: number; setSelectedId: Function};
+
+const DescriptionVariant = {
+    hidden: {
+        opacity: 0,
+        minHeight: 0,
+        transition: {
+            duration: .5
+        }
+    },
+    visible: {
+        opacity: 1,
+        minHeight: '60px',
+        transition: {
+            duration: .5
+        }
+    }
+}
+
+const TimeLineCard = ({ company, isOdd }: { company: Company, isOdd: boolean }) => {
+    const {selectedId, setSelectedId} = useContext<ExpContentType>(ExpContext);
   return (
-    <motion.div
-      className="flex flex-col items-center text-white"
-      style={{
-        width: "300px",
-        padding: "10px",
-        backgroundColor: "rgba(0,0,0,0.5)",
-        borderRadius: "10px",
-        position: "absolute",
-        top: "0",
-        transform: "translateY(-50%)",
-        left: "36px",
-      }}
+    <TimeLineStyledCard
+      isOdd={isOdd}
+      className="flex flex-col items-center text-white p-3"
     >
-      <h3 className="text-2xl">{company.name}</h3>
-      <p>{company.role}</p>
-      <p>{company.duration}</p>
-      <p>{company.description}</p>
-      <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          width: "0",
-          height: "0",
-          border: "8px solid rgba(0, 0, 0, 0.5)",
-          clipPath: "polygon(100% 0%, 0% 50%, 100% 100%)",
-          left: "-16px",
-        }}
-      ></div>
-    </motion.div>
+      <div className="flex w-full items-center cursor-pointer" onClick={() => setSelectedId(selectedId === company.id ? -1 : company.id)}>
+        <div className="flex flex-col w-full justify-start">
+          <div className="flex items-center justify-start">
+            <h3 className="text-xl">{company.name}</h3>
+            <span className="text-sm ml-2 pt-1">( {company.role} )</span>
+          </div>
+          <p className="text-sm text-white/50">{company.duration}</p>
+        </div>
+    
+        <ChevronDownIcon className="size-4 ms-auto" />
+      </div>
+        {
+           selectedId ===  company.id && 
+            <motion.span initial="hidden" whileInView="visible" exit="hidden" variants={DescriptionVariant} className="text-sm mb-1">
+                {wordAnimation(company.description, 'text-sm text-white/80')}
+            </motion.span>
+        }
+      <TimeLineCardArrow isOdd={isOdd} />
+      <div className="flex flex-wrap gap-2 mt-2">
+        {company.skills.map((skill) => (
+          <Chip label={skill} />
+        ))}
+      </div>
+    </TimeLineStyledCard>
   );
 };
 
@@ -201,79 +253,91 @@ function RotatingStars() {
 }
 
 const HeadingVariant = {
-    hidden: {
-        opacity: 0,
-      },
-    visible: {
-        opacity: 1,
-    },
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+  },
+};
 
-}
+const wordAnimation = (words, textClasses) => {
+  return words.split(" ").map((el, i) => (
+    <motion.span
+      className={textClasses}
+      key={i}
+      variants={HeadingVariant}
+      transition={{
+        duration: 0.25,
+        delay: i * 0.08,
+      }}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: false, amount: 0.5 }}
+    >
+      {el}{" "}
+    </motion.span>
+  ));
+};
 
-const wordAnimation = (words) => {
-    return words.split(" ").map((el, i) => (
-        <motion.span
-          className="md:text-7xl text-4xl"
-          key={i}
-          variants={HeadingVariant}
-          transition={{
-            duration: 0.25,
-            delay: i * 0.08,
-          }}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: false, amount: 0.5 }}
-        >
-          {el}{" "}
-        </motion.span>
-      ))
-}
-
+const ExpContext = createContext<ExpContentType>({selectedId: 0, setSelectedId: () => {}});
 // Main AboutMe component
 export default function AboutMe({ id }: { id: string }) {
-  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const [selectedId, setSelectedId] = useState<number>(0);
   const companies: Company[] = [
     {
+        id: 0,
       isCurrent: true,
       name: "Razorpay",
       role: "Senior Frontend Engineer",
       duration: "06/2022 - Present",
       description:
         "Developed custom journey modules that reduced client onboarding time by 50%, enhancing operational efficiency across 8+ client systems.",
+      skills: ["Javascript", "Typescript", "React", "Angular", "Jest"],
     },
     {
+        id: 1,
       isCurrent: false,
       name: "Poshvine",
       role: "Software Engineer",
       duration: "Nov 2021 – Sep 2022",
       description:
         "Acquired proficiency in Angular and StencilJS that improved project delivery timelines by 30%.",
+      skills: ["StencilJs", "Angular", "Javascript", "SCSS"],
     },
     {
+        id: 2,
       isCurrent: false,
       name: "Akrity Computing",
       role: "Software Engineer",
       duration: "Jul 2019 – Nov 2021",
       description:
         "Facilitated team upskilling initiatives that improved overall team performance and productivity.",
+      skills: ["HTML", "React", "Bootstrap", "Ruby on Rails"],
     },
     {
+        id: 3,
       isCurrent: false,
       name: "Akrity Computing",
       role: "Intern",
       duration: "Jun 2019 - Jul 2019",
       description:
         "Developed a project using Ruby on Rails & React that successfully met internship objectives.",
+      skills: ["HTML5", "React", "CSS", "Ruby on Rails"],
     },
     {
+        id: 4,
       isCurrent: false,
       name: "Zwayam",
       role: "Intern",
       duration: "Jul 2018 - Aug 2018",
       description:
         "Built a responsive UI that improved user experience and engagement for a candidate assessment platform.",
+      skills: ["Java", "HTML", "CSS"],
     },
   ];
+
+  const isMobile = window.innerWidth < 768;
 
   return (
     <AboutMeContainer id={id} className="relative">
@@ -284,7 +348,7 @@ export default function AboutMe({ id }: { id: string }) {
         whileInView="visible"
         viewport={{ once: false, amount: 0.5 }}
       >
-        {wordAnimation("My Work Experience")}
+        {wordAnimation("My Work Experience", 'md:text-7xl text-4xl')}
       </motion.h2>
 
       <TimeLineContainer
@@ -299,20 +363,23 @@ export default function AboutMe({ id }: { id: string }) {
           whileInView="visible"
           viewport={{ once: false, amount: 0.5 }}
         />
-
+        <ExpContext.Provider value={{
+            selectedId,
+            setSelectedId
+        }}>
         {companies.map((company, index) => (
           <motion.div
             key={index}
-            onMouseEnter={() => setSelectedIndex(index)}
             className="me-auto my-auto"
           >
             <TimeLineCardDotContainer
               company={company}
-              isSelected={index === selectedIndex}
+              isOdd={isMobile ? true : index%2 === 0}
               delay={index * 0.4}
             />
           </motion.div>
         ))}
+        </ExpContext.Provider>
       </TimeLineContainer>
 
       <Canvas
