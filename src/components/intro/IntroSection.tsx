@@ -76,8 +76,8 @@ const SliderContainer = styled.div`
 import { motion } from 'framer-motion';
 import React from 'react'
 import styled from 'styled-components';
-import { styles } from '../styles';
-import Button from './Button';
+import { styles } from '../../styles';
+import Button from '../Button';
 
 export default function IntroSection({id}: {id: string}) {
   return (

@@ -1,0 +1,1 @@
+export type ExpContentType = { selectedId: number; setSelectedId: Function };

@@ -1,8 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import Button from './Button';
-import { style } from 'framer-motion/client';
 
 interface Project {
   name: string;
@@ -17,7 +15,7 @@ const ProjectCardContainer = styled(motion.div)`
 
 `;
 
-const handleNavToGitHub = (link) => {
+const handleNavToGitHub = (link: string) => {
     window.open(link, '_blank');
 }
 
@@ -81,7 +79,6 @@ export const Projects = ({ id }: { id: string }) => {
       githubLink: 'https://github.com',
       image: 'https://via.placeholder.com/300',
     },
-    // Add more projects as needed
   ];
 
   return (

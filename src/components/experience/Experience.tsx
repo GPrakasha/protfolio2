@@ -17,6 +17,7 @@ import styled from "styled-components";
 import { Points, BufferGeometry, Material } from "three";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
+import { ExpContentType } from "./experience.types";
 
 const AboutMeContainer = styled.section`
   display: flex;
@@ -124,6 +125,7 @@ const TimeLineCardDotContainer = ({
     </TimeLineCardDot>
   );
 };
+
 const TimeLineCardDot = styled(motion.div)<{ isOdd?: boolean, index: number }>`
   width: 20px;
   height: 20px;
@@ -177,8 +179,6 @@ const TimeLineCardArrow = styled.div<{ isOdd?: boolean }>`
       : "polygon(0% 0%, 100% 50%, 0% 100%)"};
   ${({ isOdd }) => (isOdd ? "left" : "right")}: -16px;
 `;
-
-type ExpContentType = { selectedId: number; setSelectedId: Function };
 
 const DescriptionVariant = {
   hidden: {
@@ -288,7 +288,7 @@ const HeadingVariant = {
   },
 };
 
-const wordAnimation = (words, textClasses) => {
+const wordAnimation = (words: string, textClasses: string) => {
   return words.split(" ").map((el, i) => (
     <motion.span
       className={textClasses}
@@ -311,8 +311,8 @@ const ExpContext = createContext<ExpContentType>({
   selectedId: 0,
   setSelectedId: () => {},
 });
-// Main AboutMe component
-export default function AboutMe({ id }: { id: string }) {
+
+export default function Experience({ id }: { id: string }) {
   const [selectedId, setSelectedId] = useState<number>(0);
   const companies: Company[] = [
     {
