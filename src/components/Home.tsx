@@ -4,6 +4,7 @@ import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import IntroSection from './IntroSection';
 import { NAV_ITEM_ID } from '../config';
 import AboutMe from './AboutMe';
+import { Projects } from './Projects';
 
 
 function Home() {
@@ -25,7 +26,7 @@ function Home() {
 		<div className="scroll-snap-container hide-scrollbar">
 			<IntroSection id={NAV_ITEM_ID.INTRO} />
 			<AboutMe id={NAV_ITEM_ID.ABOUT} />
-			<section>Projects</section>
+            <Projects />
 			<section>Blog</section>
 			<section>Contact</section>
 		</div>
