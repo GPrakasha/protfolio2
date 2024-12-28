@@ -1,6 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import StackIcon from 'tech-stack-icons';
+import protfolio from '../../assets/protfolio.png';
+import notes from '../../assets/collaborate.svg';
 
 interface Project {
   name: string;
@@ -23,17 +26,25 @@ const NeumorphismButton = styled(motion.button)`
     box-shadow: 5px 5px 10px var(--dark-secondary), -5px -5px 10px var(--light-secondary);
 `;
 
-const Chip = ({ label }: { label: string }) => {
-    return (
-      <div className="rounded-md py-1 p-2 text-tertiary-color text-sm"
-        style={{
-            boxShadow: "inset 5px 5px 10px var(--dark-secondary), inset -5px -5px 10px var(--light-secondary)"
-        }}
-      >
-        {label}
-      </div>
-    );
-  };
+const IconContainer = styled.div`
+  width: 40px;
+  height: 40px;
+  background-color: var(--dark-secondary);
+
+  svg {
+    width: 80%;
+    height: 80%;
+    padding: 5px;
+  }
+`;
+
+const ProjectImage = styled.img`
+  width: 300px;
+  height: 180px;
+  overflow: hidden;
+  object-fit: cover;
+  border: 1px solid var(--tertiary);
+`;
 
 const ProjectCard = ({ project }: { project: Project }) => {
   return (
@@ -44,20 +55,27 @@ const ProjectCard = ({ project }: { project: Project }) => {
         scale: 1.05,
       }}
     >
-      <img
+      <ProjectImage
         src={project.image}
         alt={project.name}
-        className="w-full h-48 object-cover rounded-lg mb-4"
+        className="object-cover rounded-lg mb-4"
       />
       <h3 className="text-xl text-tertiary-color">{project.name}</h3>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap gap-2">
         {
             project.tech.map((techSkill) => (
-                <Chip label={techSkill} />
+              <IconContainer key={techSkill} className='rounded-full flex items-center justify-center'>
+                <StackIcon name={techSkill} style={
+                  {
+                    width: '80%',
+                    height: '80%',
+                    borderRadius: '50%',
+                  }
+                } />
+              </IconContainer>
             ))
         }
         </div>
-      <p className="text-sm text-primary-color">{project.tech.join(', ')}</p>
       <NeumorphismButton className="p-3 rounded-xl text-primary-color mt-3" onClick={() => handleNavToGitHub(project.githubLink)}>
       View on GitHub
     </NeumorphismButton>
@@ -68,22 +86,22 @@ const ProjectCard = ({ project }: { project: Project }) => {
 export const Projects = ({ id }: { id: string }) => {
   const projects: Project[] = [
     {
-      name: 'Project 1',
-      tech: ['React', 'TypeScript', 'Tailwind'],
-      githubLink: 'https://github.com',
-      image: 'https://via.placeholder.com/300',
+      name: 'Protfolio',
+      tech: ['reactjs', 'typescript', 'framer', 'threejs'],
+      githubLink: 'https://github.com/GPrakasha/protfolio2',
+      image: protfolio,
     },
     {
-      name: 'Project 2',
-      tech: ['Next.js', 'Node.js'],
-      githubLink: 'https://github.com',
-      image: 'https://via.placeholder.com/300',
+      name: 'NotesApp',
+      tech: ['reactjs', 'firebase'],
+      githubLink: 'https://github.com/GPrakasha/noteMaster',
+      image: notes,
     },
   ];
 
   return (
     <section id={id} className="flex flex-col justify-center items-center py-16">
-      <h1 className="md:text-5xl text-4xl font-bold mb-12">My Works</h1>
+      <h1 className="md:text-5xl text-4xl mb-12 text-primary-color">My Works</h1>
       <div className="flex flex-wrap justify-center">
         {projects.map((project, index) => (
           <ProjectCard key={index} project={project} />
