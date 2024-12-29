@@ -111,7 +111,7 @@ export default function IntroSection() {
 				</motion.h3>
 				<motion.h1
 					variants={textVariants}
-					className="text-4xl text-tertiary-color"
+					className="text-4xl md:text-6xl text-tertiary-color"
 				>
 					G Prakasha
 				</motion.h1>
