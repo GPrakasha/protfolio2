@@ -72,7 +72,7 @@ export default function Contact({ id }: { id: string }) {
           whileInView={{ opacity: 0,
             transition: {
               delay: 0,
-              duration: 4,
+              duration: 3,
             },
            }}
         exit={{ opacity: 1 }}
@@ -85,7 +85,7 @@ export default function Contact({ id }: { id: string }) {
               animate={isInView ? { 
                 pathLength: 1,
                 transition: {
-                  duration: 4,
+                  duration: 3,
              }} : {}}
               exit={{ pathLength: 0 }}
               d="M28.189,16.504h-1.666c0-5.437-4.422-9.858-9.856-9.858l-0.001-1.664C23.021,4.979,28.189,10.149,28.189,16.504z
@@ -112,7 +112,7 @@ export default function Contact({ id }: { id: string }) {
               exit={{ opacity: 0 }}
               animate={
                 isInView
-                  ? { opacity: 1, transition: { delay: 4, duration: 1 } } : {}
+                  ? { opacity: 1, transition: { delay: 3, duration: .4 } } : {}
               }
               onSubmit={handleContact}
               className="gap-y-5 flex flex-col"

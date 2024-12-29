@@ -101,7 +101,7 @@ export const Projects = ({ id }: { id: string }) => {
 
   return (
     <section id={id} className="flex flex-col justify-center items-center py-16">
-      <h1 className="md:text-5xl text-4xl mb-12 text-primary-color">My Works</h1>
+      <h1 className="md:text-5xl text-4xl mb-12 text-primary-color">Crafting with Code</h1>
       <div className="flex flex-wrap justify-center">
         {projects.map((project, index) => (
           <ProjectCard key={index} project={project} />
