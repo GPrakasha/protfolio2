@@ -1,26 +1,31 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { ForwardRefComponent, HTMLMotionProps, motion } from 'framer-motion';
 import styled from 'styled-components';
 
-const Button = ({ buttonVariant, children, onClick, type, className }: {
+type CommonButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & HTMLMotionProps<'button'> & {
     buttonVariant: string;
     className?: string;
     children: React.ReactNode;
-    onClick?: () => void;
-    type?: 'button' | 'submit' | 'reset';
-}) => {
-    return (
-        <StyledButton
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={onClick}
-            buttonVariant={buttonVariant}
-            type={type}
-            className={className}
-        >
-            {children}
-        </StyledButton>
-    );
+  };
+const Button = ({
+    buttonVariant,
+    children,
+    onClick,
+    type,
+    className,
+  }: CommonButtonProps) => {
+  return (
+    <StyledButton
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      onClick={onClick}
+      buttonVariant={buttonVariant}
+      type={type}
+      className={className}
+    >
+      {children}
+    </StyledButton>
+  );
 };
 
 const StyledButton = styled(motion.button)<{

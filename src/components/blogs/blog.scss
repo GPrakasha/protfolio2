@@ -3,6 +3,11 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
     height: 250px;
+
+    @media screen and (max-width: 768px) {
+        height: 100%;
+        width: 80vw;
+    }
 }
 
 .card:hover {
@@ -14,21 +19,31 @@
 
     img {
         height: 200px;
+        width: 300px;
         min-width: 300px;
         object-fit: cover;
+
+        @media screen and (max-width: 768px) {
+            width: 100%;
+            min-width: 100%;
+        }
     }
 
     .title-container {
         bottom: -10%;
         z-index: 1;
-        width: 80%;
-        left: 10%;
+        width: 90%;
+        left: 5%;
         padding: 10px;
         border-radius: 5px;
     }
 
     .details-container {
         width: 400px;
+
+        @media screen and (max-width: 768px) {
+            width: 100%;
+        }
     }
 }
 
@@ -40,4 +55,9 @@
     display: flex;
     justify-content: center;
     gap: 20px;
+
+    @media screen and (max-width: 768px) {
+        justify-content: start;
+        padding-left: 5vw;
+    }
 }
