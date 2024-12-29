@@ -2,13 +2,19 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-const Button = ({ buttonVariant, children, onClick }) => {
+const Button = ({ buttonVariant, children, onClick, type }: {
+    buttonVariant: string;
+    children: React.ReactNode;
+    onClick?: () => void;
+    type?: 'button' | 'submit' | 'reset';
+}) => {
     return (
         <StyledButton
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={onClick}
             buttonVariant={buttonVariant}
+            type={type}
         >
             {children}
         </StyledButton>

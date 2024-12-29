@@ -5,6 +5,7 @@ import IntroSection from './intro/IntroSection';
 import { NAV_ITEM_ID } from '../config';
 import Experience from './experience/Experience';
 import { Projects } from './projects/Projects';
+import Contact from './contact/Contact';
 
 
 function Home() {
@@ -27,8 +28,7 @@ function Home() {
 			<IntroSection id={NAV_ITEM_ID.INTRO} />
 			<Experience id={NAV_ITEM_ID.EXPERIENCE} />
             <Projects id={NAV_ITEM_ID.PROJECTS} />
-			<section>Blog</section>
-			<section>Contact</section>
+			<Contact id={NAV_ITEM_ID.CONTACT} />
 		</div>
 	);
 }
