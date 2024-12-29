@@ -7,12 +7,11 @@ const IntroSectionContainer = styled(motion.section)`
     background-image: url('src/assets/avatar1.png');
     background-size: contain;
     background-repeat: no-repeat;
-    background-position-y: center;
+    background-position-y: -100px;
     background-position-x: 25vw;
 
     @media (max-width: 768px) {
-        background-position-y: 25%;
-        background-position-x: 0;
+        background-image: none;
     }
 `;
 
@@ -21,12 +20,21 @@ const IntroContent = styled(motion.div)`
             inset -5px -5px 10px var(--light-secondary);
     border-radius: 10px;
     padding: 20px;
-    margin-right: 25%;
-    max-width: 25vw;
+    margin-left: 10%;
+    max-width: 37vw;
+    margin-bottom: 10%;
+    margin-right: auto;
 
     @media (max-width: 768px) {
         margin: auto auto 55% auto;
         max-width: unset;
+        background-image: url(src/assets/avatar1.png);
+        height: 50vh;
+        background-size: 90vw;
+        background-repeat: no-repeat;
+        background-position-x: 60px;
+        background-position-y: -30px;
+        margin-top: 10vh;
     }
 `;
 
@@ -91,15 +99,21 @@ export default function IntroSection() {
 			>
 				<motion.h3
 					variants={textVariants}
-					className="text-primary-color"
+					className="text-primary-color text-2xl md:m-0 mx-0 my-auto"
 				>
 					Who am i ?
+				</motion.h3>
+                <motion.h3
+					variants={textVariants}
+					className="text-primary-color text-2xl"
+				>
+					I'm,
 				</motion.h3>
 				<motion.h1
 					variants={textVariants}
 					className="text-4xl text-tertiary-color"
 				>
-					I'm G Prakasha
+					G Prakasha
 				</motion.h1>
 				<motion.p
 					variants={textVariants}
