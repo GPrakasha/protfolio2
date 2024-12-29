@@ -2,8 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-const Button = ({ buttonVariant, children, onClick, type }: {
+const Button = ({ buttonVariant, children, onClick, type, className }: {
     buttonVariant: string;
+    className?: string;
     children: React.ReactNode;
     onClick?: () => void;
     type?: 'button' | 'submit' | 'reset';
@@ -15,6 +16,7 @@ const Button = ({ buttonVariant, children, onClick, type }: {
             onClick={onClick}
             buttonVariant={buttonVariant}
             type={type}
+            className={className}
         >
             {children}
         </StyledButton>

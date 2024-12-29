@@ -78,10 +78,11 @@ import React from 'react'
 import styled from 'styled-components';
 import { styles } from '../../styles';
 import Button from '../Button';
+import { NAV_ITEM_ID } from '../../config';
 
-export default function IntroSection({id}: {id: string}) {
+export default function IntroSection() {
   return (
-		<IntroSectionContainer id={id} className={`relative ${styles.paddingX}`}>
+		<IntroSectionContainer id={NAV_ITEM_ID.INTRO} className={`relative ${styles.paddingX}`}>
 			<IntroContent
 				className="gap-y-6 flex flex-col"
 				variants={textVariants}

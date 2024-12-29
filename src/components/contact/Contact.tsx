@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import './contact.scss';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 import Button from '../Button';
+import { NAV_ITEM_ID } from '../../config';
 
 const variants = {
   initial: {
@@ -17,7 +18,7 @@ const variants = {
   },
 };
 
-export default function Contact({ id }: { id: string }) {
+export default function Contact() {
   const ref = useRef(null);
   const formRef = useRef(null);
   const isInView = useInView(ref, { margin: '-100px' });
@@ -36,13 +37,13 @@ export default function Contact({ id }: { id: string }) {
     <motion.section
       ref={ref}
       className="contact grid justify-center items-center md:gap-20 gap-10 bg-indigo-950 md:grid-cols-2 grid-cols-1 px-4 py-10"
-      id={id}
+      id={NAV_ITEM_ID.CONTACT}
       variants={variants}
       initial="initial"
       exit="initial"
       whileInView="animate"
       viewport={{ once: false, amount: 0.5 }}
-      key={id}
+      key={NAV_ITEM_ID.CONTACT}
     >
       <motion.div
         variants={variants}

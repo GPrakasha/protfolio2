@@ -18,6 +18,7 @@ import { Points, BufferGeometry, Material } from "three";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { ExpContentType } from "./experience.types";
+import { NAV_ITEM_ID } from "../../config";
 
 const AboutMeContainer = styled.section`
   display: flex;
@@ -312,7 +313,7 @@ const ExpContext = createContext<ExpContentType>({
   setSelectedId: () => {},
 });
 
-export default function Experience({ id }: { id: string }) {
+export default function Experience() {
   const [selectedId, setSelectedId] = useState<number>(0);
   const companies: Company[] = [
     {
@@ -370,7 +371,7 @@ export default function Experience({ id }: { id: string }) {
   const isMobile = window.innerWidth < 768;
 
   return (
-    <AboutMeContainer id={id} className="relative">
+    <AboutMeContainer id={NAV_ITEM_ID.EXPERIENCE} className="relative">
       <motion.h2
         className="text-white m-auto md:w-2/5 text-center"
         variants={ExpHeadingVariant}

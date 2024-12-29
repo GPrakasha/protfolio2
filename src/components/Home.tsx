@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import gsap from 'gsap';
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import IntroSection from './intro/IntroSection';
-import { NAV_ITEM_ID } from '../config';
 import Experience from './experience/Experience';
 import { Projects } from './projects/Projects';
 import Contact from './contact/Contact';
+import Blog from './blogs/Blog';
 
 
 function Home() {
@@ -25,10 +25,11 @@ function Home() {
 
     return (
 		<div className="scroll-snap-container hide-scrollbar">
-			<IntroSection id={NAV_ITEM_ID.INTRO} />
-			<Experience id={NAV_ITEM_ID.EXPERIENCE} />
-            <Projects id={NAV_ITEM_ID.PROJECTS} />
-			<Contact id={NAV_ITEM_ID.CONTACT} />
+			<IntroSection />
+			<Experience />
+            <Blog />
+            <Projects />
+			<Contact />
 		</div>
 	);
 }

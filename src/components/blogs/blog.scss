@@ -1,0 +1,43 @@
+.card {
+    width: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    height: 250px;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.card-content {
+    padding: 16px;
+
+    img {
+        height: 200px;
+        min-width: 300px;
+        object-fit: cover;
+    }
+
+    .title-container {
+        bottom: -10%;
+        z-index: 1;
+        width: 80%;
+        left: 10%;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .details-container {
+        width: 400px;
+    }
+}
+
+.flex>.card {
+    margin-bottom: 20px;
+}
+
+.cards-infinite-scroll-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}

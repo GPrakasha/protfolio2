@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import StackIcon from 'tech-stack-icons';
 import protfolio from '../../assets/protfolio.png';
 import notes from '../../assets/collaborate.svg';
+import { NAV_ITEM_ID } from '../../config';
 
 interface Project {
   name: string;
@@ -83,7 +84,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
   );
 };
 
-export const Projects = ({ id }: { id: string }) => {
+export const Projects = () => {
   const projects: Project[] = [
     {
       name: 'Protfolio',
@@ -100,7 +101,7 @@ export const Projects = ({ id }: { id: string }) => {
   ];
 
   return (
-    <section id={id} className="flex flex-col justify-center items-center py-16">
+    <section id={NAV_ITEM_ID.PROJECTS} className="flex flex-col justify-center items-center py-16">
       <h1 className="md:text-5xl text-4xl mb-12 text-primary-color">Crafting with Code</h1>
       <div className="flex flex-wrap justify-center">
         {projects.map((project, index) => (
