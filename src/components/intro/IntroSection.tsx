@@ -99,13 +99,13 @@ export default function IntroSection() {
 			>
 				<motion.h3
 					variants={textVariants}
-					className="text-primary-color text-2xl md:m-0 mx-0 my-auto"
+					className="text-primary-color text-xl md:m-0 mx-0 my-auto"
 				>
 					Who am i ?
 				</motion.h3>
                 <motion.h3
 					variants={textVariants}
-					className="text-primary-color text-2xl"
+					className="text-primary-color text-xl"
 				>
 					I'm,
 				</motion.h3>
@@ -117,17 +117,17 @@ export default function IntroSection() {
 				</motion.h1>
 				<motion.p
 					variants={textVariants}
-					className="text-3xl text-primary-color"
+					className="text-2xl text-primary-color"
 				>
 					Web Developer | Building Intuitive, User-Centered Web
 					Experiences
 				</motion.p>
 				<motion.div className="flex justify-between">
-					<Button buttonVariant="secondary" onClick={() => {}}>
+					<Button buttonVariant="secondary" className='md:text-2xl text-sm' onClick={() => {}}>
 						See the latest Works
 					</Button>
 
-					<Button buttonVariant="primary" onClick={() => {}}>
+					<Button buttonVariant="primary" className='md:text-2xl text-sm' onClick={() => {}}>
 						Contact me
 					</Button>
 				</motion.div>

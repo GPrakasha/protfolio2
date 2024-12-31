@@ -19,6 +19,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { ExpContentType } from "./experience.types";
 import { NAV_ITEM_ID } from "../../config";
+import { useDevice } from "../../hooks/useDevice";
 
 const AboutMeContainer = styled.section`
   display: flex;
@@ -32,7 +33,9 @@ const AboutMeContainer = styled.section`
   padding: 15px 0;
 
   @media (max-width: 768px) {
-    flex-direction: column;
+    
+  
+    min-height: 160vh !important;
   }
 `;
 
@@ -60,7 +63,9 @@ const TimeLineContainer = styled(motion.div)`
   align-items: start;
 
   @media (max-width: 768px) {
-    width: 100%;
+    width: 355px;
+    height: 150vh;
+    padding-left: 10px;
   }
 `;
 
@@ -75,7 +80,7 @@ const TimeLine = styled(motion.div)`
   left: 50px;
 
   @media (max-width: 768px) {
-    left: 50px;
+    left: 20px;
   }
 `;
 
@@ -166,6 +171,11 @@ const TimeLineStyledCard = styled(motion.div)<{ isOdd?: boolean }>`
   border: 1px solid white;
 
   ${({ isOdd }) => (isOdd ? "left" : "right")}: 36px;
+
+  @media (max-width: 768px) {
+    top: -2px;
+    left: 30px;
+  }
 `;
 
 const TimeLineCardArrow = styled.div<{ isOdd?: boolean }>`
@@ -206,6 +216,15 @@ const TimeLineCard = ({
   isOdd: boolean;
 }) => {
   const { selectedId, setSelectedId } = useContext<ExpContentType>(ExpContext);
+  const { isMobile } = useDevice();
+
+  console.log(isMobile);
+
+  const handleCardClick = () => {
+    if(isMobile) return;
+    setSelectedId(selectedId === company.id ? -1 : company.id)
+  }
+
   return (
     <TimeLineStyledCard
       isOdd={isOdd}
@@ -213,10 +232,7 @@ const TimeLineCard = ({
     >
       <div
         className="flex w-full items-center cursor-pointer"
-        onClick={() =>
-          setSelectedId(selectedId === company.id ? -1 : company.id)
-        }
-      >
+        onClick={handleCardClick}>
         <div className="flex flex-col w-full justify-start">
           <div className="flex items-center justify-start">
             <h3 className="text-xl">{company.name}</h3>
@@ -228,7 +244,7 @@ const TimeLineCard = ({
         <ChevronDownIcon className="size-4 ms-auto" />
       </div>
       <AnimatePresence>
-        {selectedId === company.id && (
+        {(isMobile ? true : (selectedId === company.id)) && (
           <motion.span
             initial="hidden"
             whileInView="visible"
@@ -315,6 +331,7 @@ const ExpContext = createContext<ExpContentType>({
 
 export default function Experience() {
   const [selectedId, setSelectedId] = useState<number>(0);
+  const { isMobile } = useDevice();
   const companies: Company[] = [
     {
       id: 0,
@@ -368,13 +385,14 @@ export default function Experience() {
     },
   ];
 
-  const isMobile = window.innerWidth < 768;
-
   return (
-    <AboutMeContainer id={NAV_ITEM_ID.EXPERIENCE} className="relative">
+    <AboutMeContainer id={NAV_ITEM_ID.EXPERIENCE} className="relative flex-col flex md:flex-row">
       <motion.h2
         className="text-white m-auto md:w-2/5 text-center"
         variants={ExpHeadingVariant}
+        style={{
+          margin: '60px auto 40px auto'
+        }}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.5 }}
@@ -418,7 +436,7 @@ export default function Experience() {
           top: 0,
           left: 0,
           zIndex: 1,
-          clipPath: "polygon(100% 0px, 100% 24%, -74% 70%, 0px 0px)",
+          // clipPath: "polygon(100% 0px, 100% 24%, -74% 70%, 0px 0px)",
         }}
         camera={{ position: [0, 0, 5] }}
       >

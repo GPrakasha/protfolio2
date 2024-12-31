@@ -33,7 +33,6 @@ const StyledButton = styled(motion.button)<{
 }>`
     padding: 10px 20px;
     border-radius: 5px;
-    font-size: 16px;
     cursor: pointer;
 
     ${(props) => {

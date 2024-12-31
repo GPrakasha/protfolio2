@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import StackIcon from 'tech-stack-icons';
 import protfolio from '../../assets/protfolio.png';
 import notes from '../../assets/collaborate.svg';
 import { NAV_ITEM_ID } from '../../config';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Points, PointMaterial } from '@react-three/drei';
 
 interface Project {
   name: string;
@@ -14,23 +16,38 @@ interface Project {
 }
 
 const ProjectCardContainer = styled(motion.div)`
-    box-shadow: inset 5px 5px 10px var(--dark-secondary),
-            inset -5px -5px 10px var(--light-secondary);
+  min-width: 300px;
+  height: 50vh;
+  background: linear-gradient(145deg, #1b1844, #201d50);
+  box-shadow:  20px 20px 60px #1a1740,
+              -20px -20px 60px #231f56;
 
+  @media (max-width: 768px) {
+    // height: 70vh;
+  }
 `;
 
 const handleNavToGitHub = (link: string) => {
-    window.open(link, '_blank');
-}
+  window.open(link, '_blank');
+};
 
 const NeumorphismButton = styled(motion.button)`
-    box-shadow: 5px 5px 10px var(--dark-secondary), -5px -5px 10px var(--light-secondary);
+  box-shadow:
+    2px 3px 10px var(--dark-secondary),
+    -5px -5px 10px var(--light-secondary);
 `;
 
 const IconContainer = styled.div`
-  width: 40px;
-  height: 40px;
-  background-color: var(--dark-secondary);
+  width: 60px;
+  height: 60px;
+  background: #1e1b4b;
+  box-shadow: inset 20px 20px 60px #141231,
+            inset -20px -20px 60px #292465;
+
+  @media (max-width: 768px) {
+    width: 60px;
+    height: 60px;
+  }
 
   svg {
     width: 80%;
@@ -61,26 +78,57 @@ const ProjectCard = ({ project }: { project: Project }) => {
         alt={project.name}
         className="object-cover rounded-lg mb-4"
       />
-      <h3 className="text-xl text-tertiary-color">{project.name}</h3>
-      <div className="flex flex-wrap gap-2">
-        {
-            project.tech.map((techSkill) => (
-              <IconContainer key={techSkill} className='rounded-full flex items-center justify-center'>
-                <StackIcon name={techSkill} style={
-                  {
-                    width: '80%',
-                    height: '80%',
-                    borderRadius: '50%',
-                  }
-                } />
-              </IconContainer>
-            ))
-        }
-        </div>
-      <NeumorphismButton className="p-3 rounded-xl text-primary-color mt-3" onClick={() => handleNavToGitHub(project.githubLink)}>
-      View on GitHub
-    </NeumorphismButton>
+      <h3 className="text-xl text-tertiary-color mt-1 mb-4">{project.name}</h3>
+      <div className="flex md:flex-wrap gap-2">
+        {project.tech.map((techSkill) => (
+          <IconContainer
+            key={techSkill}
+            className="rounded-full flex items-center justify-center"
+          >
+            <StackIcon
+              name={techSkill}
+              style={{
+                width: '80%',
+                height: '80%',
+                borderRadius: '50%',
+              }}
+            />
+          </IconContainer>
+        ))}
+      </div>
+      <NeumorphismButton
+        className="p-3 rounded-xl text-primary-color mt-auto"
+        onClick={() => handleNavToGitHub(project.githubLink)}
+      >
+        View on GitHub
+      </NeumorphismButton>
     </ProjectCardContainer>
+  );
+};
+
+const Stars = () => {
+  const sphere = new Float32Array(1000).map(() => (Math.random() - 0.5) * 10);
+  const ref = useRef<any>();
+
+  useFrame((state, delta) => {
+    if (ref.current?.rotation) {
+      ref.current.rotation.x -= delta / 10;
+      ref.current.rotation.y -= delta / 15;
+    }
+  });
+
+  return (
+    <group>
+      <Points ref={ref} positions={sphere} stride={3} frustumCulled={false}>
+        <PointMaterial
+          transparent
+          color="#ffa0e0"
+          size={0.005}
+          sizeAttenuation={true}
+          depthWrite={false}
+        />
+      </Points>
+    </group>
   );
 };
 
@@ -101,13 +149,35 @@ export const Projects = () => {
   ];
 
   return (
-    <section id={NAV_ITEM_ID.PROJECTS} className="flex flex-col justify-center items-center py-16">
-      <h1 className="md:text-5xl text-4xl mb-12 text-primary-color">Crafting with Code</h1>
-      <div className="flex flex-wrap justify-center">
+    <motion.section
+      whileInView="animate"
+      id={NAV_ITEM_ID.PROJECTS}
+      style={{
+        zIndex: 1,
+      }}
+      className="flex flex-col justify-center items-center relative bg-indigo-950 h-full"
+    >
+      <h1 className="text-3xl md:text-5xl text-center mx-auto mt-24 mb-6 text-primary-color">
+        Crafting with Code
+      </h1>
+      <div className="flex md:justify-center justify-start w-full overflow-x-scroll m-auto mb-auto mt-0 md:mt-10 hide-scrollbar py-24 md:pt-0">
         {projects.map((project, index) => (
           <ProjectCard key={index} project={project} />
         ))}
       </div>
-    </section>
+      <Canvas
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          zIndex: -1,
+        }}
+        camera={{ position: [0, 0, 5] }}
+      >
+        <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} />
+        <Stars />
+      </Canvas>
+    </motion.section>
   );
 };

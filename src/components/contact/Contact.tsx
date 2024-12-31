@@ -1,8 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './contact.scss';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 import Button from '../Button';
 import { NAV_ITEM_ID } from '../../config';
+import emailjs from '@emailjs/browser';
 
 const variants = {
   initial: {
@@ -20,17 +21,87 @@ const variants = {
 
 export default function Contact() {
   const ref = useRef(null);
-  const formRef = useRef(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const isInView = useInView(ref, { margin: '-100px' });
+  const [error, setError] = React.useState('');
+  const [showSuccess, setShowSuccess] = React.useState(false);
+  const [validationErrors, setValidationErrors] = React.useState<{
+    name?: string;
+    email?: string;
+    message?: string;
+  }>({});
+
+  useEffect(() => {
+    emailjs.init({
+      publicKey: 'UdKixZYIBlY2NNwtE',
+      blockHeadless: true,
+      blockList: {
+        list: ['foo@emailjs.com', 'bar@emailjs.com'],
+        watchVariable: 'userEmail',
+      },
+      limitRate: {
+        id: 'app',
+        throttle: 10000,
+      },
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log('formRef', formRef);
+  },[formRef.current]);
+
+  const showSuccessMessage = () => {
+    setShowSuccess(true);
+    setTimeout(() => {
+      setShowSuccess(false);
+    }, 2000);
+  };
+
+  // Validation function
+  const validateForm = () => {
+    const newErrors: any = {};
+    const formData = new FormData(formRef.current!);
+
+    // Name validation
+    if (!formData.get('name')) {
+      newErrors.name = 'Name is required';
+    }
+
+    // Email validation
+    const email = formData.get('email');
+    if (!email) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(email as string)) {
+      newErrors.email = 'Email is invalid';
+    }
+
+    // Message validation
+    if (!formData.get('message')) {
+      newErrors.message = 'Message is required';
+    }
+
+    setValidationErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Return true if no errors
+  };
 
   const handleContact = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get('name') as string;
-    const email = formData.get('email') as string;
-    const message = formData.get('message') as string;
-
-    console.log(name, email, message);
+    if (!validateForm()) {
+      return; // Don't proceed if there are validation errors
+    }
+    
+    emailjs.sendForm('service_iacn8ka', 'template_y0w3pkj', formRef.current ?? '', 'UdKixZYIBlY2NNwtE').then(
+      (result) => {
+        formRef.current?.reset();
+        showSuccessMessage();
+      },
+      (error) => {
+        setError(error.text);
+        setTimeout(() => {
+          setError('');
+        }, 2000);
+      }
+    );
   };
 
   return (
@@ -49,12 +120,10 @@ export default function Contact() {
         variants={variants}
         className="text-container text-primary-color md:col-span-1 col-row-1 self-end md:self-center mb-3"
       >
-        <h1 className="md:text-7xl text-5xl text-center md:text-left">Let's work together</h1>
+        <h1 className="md:text-7xl text-5xl text-center md:text-left mb-5 md:mb-auto">Let's work together</h1>
         <motion.div variants={variants} className="item mb-4">
           <h2 className="text-2xl">Email</h2>
-          <span className="text-tertiary-color pt-0">
-            gnanaudayan.prakasha@gmail.com
-          </span>
+          <span className="text-tertiary-color pt-0">gnanaudayan.prakasha@gmail.com</span>
         </motion.div>
         <motion.div variants={variants} className="item mb-4">
           <h2 className="text-2xl">Address</h2>
@@ -107,36 +176,126 @@ export default function Contact() {
         </motion.div>
 
         <AnimatePresence>
-            <motion.form
-              ref={formRef}
-              initial={{ opacity: 0 }}
-              exit={{ opacity: 0 }}
-              animate={
-                isInView
-                  ? { opacity: 1, transition: { delay: 3, duration: .4 } } : {}
-              }
-              onSubmit={handleContact}
-              className="gap-y-5 flex flex-col"
-              viewport={{ once: false, amount: 0.5 }}
-            >
+          <motion.form
+            ref={formRef}
+            initial={{ opacity: 0 }}
+            exit={{ opacity: 0 }}
+            animate={
+              isInView
+                ? {
+                    opacity: 1,
+                    zIndex: 2,
+                    transition: { delay: 3, duration: 0.4 },
+                  }
+                : {}
+            }
+            onSubmit={handleContact}
+            className="gap-y-5 flex flex-col text-primary-color"
+            viewport={{ once: false, amount: 0.5 }}
+          >
+            <div className='flex flex-col'>
               <input
                 type="text"
                 name="name"
                 placeholder="Name"
-                className="input"
+                className={`input ${validationErrors.name ? 'input-error' : ''}`}
+                onChange={validateForm}
               />
+              {validationErrors.name && (
+                <motion.div 
+                  initial={{ 
+                    opacity: 0,
+                    y: '-10px',
+                  }}
+                  animate={{ 
+                    opacity: 1,
+                    y: '0',
+                  }}
+                  exit={{ opacity: 0 }}
+                className="error-message text-red-400 mt-2">{validationErrors.name}</motion.div>
+              )}
+            </div>
+
+            <div className='flex flex-col'>
               <input
                 type="email"
                 name="email"
                 placeholder="Email"
-                className="input"
+                className={`input ${validationErrors.email ? 'input-error' : ''}`}
+                onChange={() => {
+                  setValidationErrors({
+                    ...validationErrors,
+                    email: '',
+                  });
+                }}
               />
-              <textarea name="message" placeholder="Message" className="input" />
-              <Button buttonVariant={'primary'} type="submit">
-                Submit
-              </Button>
-            </motion.form>
+              {validationErrors.email && (
+                <motion.div 
+                  initial={{ 
+                    opacity: 0,
+                    y: '-10px',
+                  }}
+                  animate={{ 
+                    opacity: 1,
+                    y: '0',
+                  }}
+                  exit={{ opacity: 0 }}
+                className="error-message text-red-400 mt-2">{validationErrors.email}</motion.div>
+              )}
+            </div>
+
+            <div className='flex flex-col'>
+              <textarea
+                name="message"
+                placeholder="Message"
+                className={`input text-primary-color ${validationErrors.message ? 'input-error' : ''}`}
+                onChange={() => {
+                  setValidationErrors({
+                    ...validationErrors,
+                    message: '',
+                  });
+                }}
+              />
+              {validationErrors.message && (
+                <motion.div 
+                  initial={{ 
+                    opacity: 0,
+                    y: '-10px',
+                  }}
+                  animate={{ 
+                    opacity: 1,
+                    y: '0',
+                  }}
+                  exit={{ opacity: 0 }}
+                className="error-message text-red-400 mt-2">{validationErrors.message}</motion.div>
+              )}
+            </div>
+
+            <Button buttonVariant={'primary'} type="submit">
+              Submit
+            </Button>
+          </motion.form>
         </AnimatePresence>
+      </motion.div>
+
+      <motion.div
+        className={`toast-message absolute flex justify-center items-center text-white p-2 rounded-md bg-teal-500 ${
+          error ? 'bg-danger-color' : 'bg-success-color'
+        }`}
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: (showSuccess || error) ? 1 : 0,
+          right: (showSuccess || error) ? '20px' : '-250px',
+        }}
+        exit={{
+          opacity: 0,
+          top: '-100px',
+        }}
+        transition={{ duration: 0.5 }}
+      >
+        <span>
+          {error ? error : 'Message sent successfully'}
+        </span>
       </motion.div>
     </motion.section>
   );

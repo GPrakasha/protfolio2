@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Button from '../Button';
 import post1 from '../../assets/post1.png';
 import post3 from '../../assets/post3.png';
+import { useDevice } from '../../hooks/useDevice';
 
 type Blog = {
     url: string;
@@ -41,68 +42,78 @@ checkout this article on how improving dev estimates can help during the crucial
     },
 ];
 
-const detailsVariants = {
-    hidden: {
-        opacity: 0,
-        x: '-10%',
-        y: '-10%',
-        width: '200px',
-        display: 'none',
-    },
-    visible: {
-        opacity: 1,
-        x: 0,
-        y: 0,
-        width: window.innerWidth < 768 ? "100%" : '400px',
-        display: 'block',
-        transition: {
-            duration: .3,
-        },
-    },
-}
-
-const detailsContainerVariants = {
-    hidden: { 
-        opacity: 0,
-        x: '-10%',
-        y: 0,
-        width: '0px',
-        display: 'none',
-    },
-    visible: { 
-        opacity: 1,
-        x: 0,
-        y: 0,
-        width: window.innerWidth < 768 ? "100%" : '400px',
-        display: 'block',
-        transition: {
-            duration: 0.3,
-        }
-    },
-};
-
 const Card = ({
     url,
     image,
     title,
     description,
 }: Blog) => {
+    const { isMobile } = useDevice();
+    const handleHover = (hovered: boolean) => {
+        if(isMobile) return;
+        // setIsHovered(hovered);
+    }
 
-    const [isHovered, setIsHovered] = useState(window.innerWidth < 768);
+    const handleCardClick = () => {
+        window.open(url, '_blank');
+    }
+
+
+    const detailsVariants = {
+        hidden: {
+            opacity: 0,
+            x: '-10%',
+            y: '-10%',
+            width: '200px',
+            display: 'none',
+        },
+        visible: {
+            opacity: 1,
+            x: 0,
+            y: 0,
+            width: isMobile < 768 ? "100%" : '100%',
+            display: '-webkit-box',
+            transition: {
+                duration: .3,
+            },
+        },
+    }
+
+    const detailsContainerVariants = {
+        hidden: { 
+            opacity: 0,
+            x: '-10%',
+            y: 0,
+            width: '0px',
+            display: 'none',
+        },
+        visible: { 
+            opacity: 1,
+            x: 0,
+            y: 0,
+            width: isMobile < 768 ? "100%" : '360px',
+            display: 'flex',
+            transition: {
+                duration: 0.3,
+            }
+        },
+    };
+
+    const [isHovered, setIsHovered] = useState(true);
     return (
         <motion.div
-            className="card"
+            className="card rounded"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             whileHover={{ scale: 1 }}
-            onHoverStart={() => setIsHovered(true)}
-            onHoverEnd={() => setIsHovered(false)}
+            onHoverStart={() => handleHover(true)}
+            onHoverEnd={() => handleHover(false)}
         >
-            <div className="card-content flex md:flex-row flex-col">
+            <div className="card-content flex md:flex-row flex-col h-full">
                 <div className='relative h-full'>
                     {image ? (
-                        <img src={image} alt="Card Thumbnail" />
+                        <motion.img src={image} alt="Card Thumbnail" className='rounded cursor-pointer' onClick={handleCardClick} />
                     ) : (
                         <div className="no-image-placeholder">No Image</div>
                     )}
@@ -122,7 +133,7 @@ const Card = ({
                     </motion.div>
                 </div>
                 <motion.div 
-                    className='flex md:flex-col details-container ml-3'
+                    className='flex flex-col details-container h-full ml-0 md:ml-3'
                     variants={detailsContainerVariants}
                     initial={
                         isHovered ? 'visible' : 'hidden'
@@ -136,10 +147,11 @@ const Card = ({
                         initial="hidden"
                         variants={detailsVariants}
                         viewport={{ once: false, amount: 0.5 }}
+                        className='text-tertiary-color text-xl font-medium line-clamp-1 mt-2 mb-1'
                     >
                         {title}
                     </motion.h4>
-                    <motion.span animate={isHovered ? "visible" : "hidden"} initial="hidden" variants={detailsVariants} className='line-clamp-3'>{description}</motion.span>
+                    <motion.span animate={isHovered ? "visible" : "hidden"} initial="hidden" variants={detailsVariants} className='md:line-clamp-10 line-clamp-4 text-wrap text-primary-color'>{description}</motion.span>
                     <motion.div
                         initial="hidden"
                         animate={isHovered ? "visible" : "hidden"}
@@ -150,11 +162,12 @@ const Card = ({
                                 transition: { delay: 0.3 },
                             },
                         }}
+                        className='md:w-1/2 w-full mt-auto'
                     >
                         <Button
-                            className='w-1/2 mt-3'
+                            className='w-full'
                             buttonVariant="primary"
-                            onClick={() => window.open(url, '_blank')}
+                            onClick={handleCardClick}
                         >
                             Read More
                         </Button>
@@ -165,11 +178,11 @@ const Card = ({
     );
 };
 
-const RenderCards = () => {
+const RenderCards = (id) => {
   return (
-    <div className="cards-list flex gap-5">
+    <div className="cards-list flex gap-5" key={id}>
       {blogs.map((blog, index) => (
-        <div key={index} className="card-item" style={{ marginBottom: '20px' }}>
+        <div key={`${index}_${id}`} className="card-item">
           <Card {...blog} />
         </div>
       ))}
@@ -178,15 +191,21 @@ const RenderCards = () => {
 };
 
 export default function Blog() {
-
+    const { isMobile } = useDevice();
     return (
         <section className="blog-container flex flex-col">
-            <motion.h1 className='text-3xl md:text-6xl text-center m-auto md:mb-auto mb-3 text-primary-color'>
+            <motion.h1 className='text-3xl md:text-5xl text-center mx-auto mt-24 md:mb-20 mb-6 text-primary-color'>
                 From My Mind to the World
             </motion.h1>
-            <div className="cards-infinite-scroll-container m-auto mt-0 overflow-x-scroll w-full">
-                {RenderCards()}
-                {RenderCards()}
+            <div className="cards-infinite-scroll-container m-auto mb-auto mt-0 md:mt-10 overflow-x-scroll md:overflow-x-hidden w-full hide-scrollbar py-5">
+                {RenderCards(0)}
+                {
+                    !isMobile &&
+                        <>
+                        {RenderCards(1)}
+                        {RenderCards(2)}
+                        </>
+                }
             </div>
         </section>
     );
