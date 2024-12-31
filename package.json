@@ -1,9 +1,9 @@
 {
   "name": "protfolio2",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.3",
   "type": "module",
-  "homepage": "https://GPrakasha.github.io/protfolio2",
+  "homepage": "https://gprakasha.github.io/protfolio2",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
