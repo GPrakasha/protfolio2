@@ -141,7 +141,7 @@ export default function IntroSection() {
         <a href={`#${NAV_ITEM_ID.CONTACT}`}>
           <Button
             buttonVariant="primary"
-            className="md:text-2xl text-sm fixed rounded-full z-10"
+            className="md:text-2xl text-sm fixed rounded-full z-10 flex items-center gap-2"
             onClick={() => {}}
             style={{
                 bottom: '15px',
@@ -153,6 +153,7 @@ export default function IntroSection() {
                 },
             }}
           >
+            <span className='md:text-md'>Let's Talk</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

@@ -118,7 +118,7 @@ export default function Contact() {
     >
       <motion.div
         variants={variants}
-        className="text-container text-primary-color md:col-span-1 w-full self-end md:self-center mb-3 h-2/6 md:h-auto"
+        className="text-container text-primary-color md:col-span-1 w-full self-end md:self-center mb-3 h-2/6 md:h-auto mt-16 md:mt-0"
       >
         <h1 className="md:text-7xl text-3xl text-center md:text-left mb-5 md:mb-auto">Let's work together</h1>
         <motion.div variants={variants} className="item mb-4">
@@ -135,7 +135,7 @@ export default function Contact() {
         </motion.div>
       </motion.div>
 
-      <motion.div className="contact-form md:col-span-1 w-full self-start md:self-center h-2/3 md:h-auto justify-end">
+      <motion.div className="contact-form md:col-span-1 w-full self-start md:self-center h-2/3 md:h-auto justify-start">
         <motion.div
           className="phoneSvg"
           initial={{ 

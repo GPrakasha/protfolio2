@@ -32,10 +32,9 @@ const AboutMeContainer = styled.section`
   background-repeat: no-repeat;
   background-position: center;
   padding: 15px 0;
-  height: 200vh;
+  min-height: 200vh;
+
   @media (max-width: 768px) {
-    
-  
     min-height: 1200px !important;
   }
 `;
@@ -56,8 +55,8 @@ const TimeLineContainerVariant = {
 
 const TimeLineContainer = styled(motion.div)`
   display: flex;
-  height: 75vh;
-  width: 30%;
+  height: 80%;
+  width: 0%;
   z-index: 2;
   position: relative;
   padding-left: 40px;
@@ -253,7 +252,7 @@ const TimeLineCard = ({
             whileInView="visible"
             exit="hidden"
             variants={DescriptionVariant}
-            className="text-sm mb-1"
+            className="text-sm my-auto"
           >
             {wordAnimation(company.description, "text-sm text-white/80")}
           </motion.span>
@@ -296,7 +295,7 @@ function RotatingStars() {
     };
   }, []);
 
-  return <Stars ref={starRef} saturation={0} speed={5} />;
+  return <Stars ref={starRef} radius={100} depth={0} count={1000} factor={15} fade saturation={0} speed={5} />;
 }
 
 const HeadingVariant = {
@@ -389,7 +388,7 @@ export default function Experience() {
   ];
 
   return (
-    <AboutMeContainer id={NAV_ITEM_ID.EXPERIENCE} className="relative flex-col flex md:flex-row">
+    <AboutMeContainer id={NAV_ITEM_ID.EXPERIENCE} className="relative flex-col flex">
       <motion.h2
         className="text-white m-auto md:w-2/5 text-center"
         variants={ExpHeadingVariant}
@@ -400,11 +399,11 @@ export default function Experience() {
         whileInView="visible"
         viewport={{ once: false, amount: 0.5 }}
       >
-        {wordAnimation("My Work Experience", "md:text-7xl text-4xl")}
+        {wordAnimation("My Work Experience", "md:text-5xl text-4xl")}
       </motion.h2>
 
       <TimeLineContainer
-        className="flex-col relative m-auto mt-4 md:mt-auto"
+        className="flex-col relative m-auto mt-4"
         variants={TimeLineContainerVariant}
         initial="closed"
         animate="open"
