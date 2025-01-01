@@ -130,16 +130,18 @@ export default function IntroSection() {
           Web Developer | Building Intuitive, User-Centered Web Experiences
         </motion.p>
         <motion.div className="flex justify-between">
-          <Button
-            buttonVariant="secondary"
-            className="md:text-xl text-sm rounded"
-            onClick={() => {}}
-            variants={textVariants}
-            initial="initial"
-            animate="animate"
-          >
-            See the latest Works
-          </Button>
+          <a href={`#${NAV_ITEM_ID.PROJECTS}`}>
+            <Button
+              buttonVariant="secondary"
+              className="md:text-xl text-sm rounded"
+              onClick={() => {}}
+              variants={textVariants}
+              initial="initial"
+              animate="animate"
+            >
+              See the latest Works
+            </Button>
+          </a>
 
           <a href={`#${NAV_ITEM_ID.CONTACT}`}>
             <Button
