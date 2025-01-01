@@ -32,11 +32,11 @@ const AboutMeContainer = styled.section`
   background-repeat: no-repeat;
   background-position: center;
   padding: 15px 0;
-
+  height: 200vh;
   @media (max-width: 768px) {
     
   
-    min-height: 160vh !important;
+    min-height: 1200px !important;
   }
 `;
 
@@ -65,7 +65,7 @@ const TimeLineContainer = styled(motion.div)`
 
   @media (max-width: 768px) {
     width: 355px;
-    height: 150vh;
+    height: 950px;
     padding-left: 10px;
   }
 `;
@@ -163,19 +163,21 @@ const Chip = ({ label }: { label: string }) => {
 };
 
 const TimeLineStyledCard = styled(motion.div)<{ isOdd?: boolean }>`
-  width: 300px;
+  width: 350px;
   background-color: var(--secondary);
   border-radius: 10px;
   position: absolute;
   top: 0;
   transform: translateY(-50%);
   border: 1px solid white;
-
+  height: 200px;
   ${({ isOdd }) => (isOdd ? "left" : "right")}: 36px;
 
   @media (max-width: 768px) {
     top: -2px;
     left: 30px;
+    width: 300px;
+    height: 160px;
   }
 `;
 
@@ -223,7 +225,7 @@ const TimeLineCard = ({
 
   const handleCardClick = () => {
     if(isMobile) return;
-    setSelectedId(selectedId === company.id ? -1 : company.id)
+    // setSelectedId(selectedId === company.id ? -1 : company.id)
   }
 
   return (
@@ -239,13 +241,13 @@ const TimeLineCard = ({
             <h3 className="text-xl">{company.name}</h3>
             <span className="text-sm ml-2 pt-1">( {company.role} )</span>
           </div>
-          <p className="text-sm text-white/50">{company.duration}</p>
+          <p className="text-sm text-white/50 m">{company.duration}</p>
         </div>
 
-        <ChevronDownIcon className="size-4 ms-auto" />
+        {/* <ChevronDownIcon className="size-4 ms-auto" /> */}
       </div>
       <AnimatePresence>
-        {(isMobile ? true : (selectedId === company.id)) && (
+        {/* {(isMobile ? true : (selectedId === company.id)) && ( */}
           <motion.span
             initial="hidden"
             whileInView="visible"
@@ -255,7 +257,7 @@ const TimeLineCard = ({
           >
             {wordAnimation(company.description, "text-sm text-white/80")}
           </motion.span>
-        )}
+        {/* )} */}
       </AnimatePresence>
       <TimeLineCardArrow isOdd={isOdd} />
       <div className="flex flex-wrap gap-2 mt-2">
@@ -318,7 +320,7 @@ const wordAnimation = (words: string, textClasses: string) => {
       }}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, amount: 0.5 }}
+      viewport={{ once: true, amount: 0.5 }}
     >
       {el}{" "}
     </motion.span>
@@ -342,7 +344,7 @@ export default function Experience() {
       duration: "06/2022 - Present",
       description:
         "Developed custom journey modules that reduced client onboarding time by 50%, enhancing operational efficiency across 8+ client systems.",
-      skills: ["Javascript", "Typescript", "React", "Angular", "Jest"],
+      skills: ["Typescript", "React", "Angular", "Jest"],
     },
     {
       id: 1,
@@ -402,7 +404,7 @@ export default function Experience() {
       </motion.h2>
 
       <TimeLineContainer
-        className="flex-col relative m-auto"
+        className="flex-col relative m-auto mt-4 md:mt-auto"
         variants={TimeLineContainerVariant}
         initial="closed"
         animate="open"
@@ -410,8 +412,8 @@ export default function Experience() {
         <TimeLine
           variants={TimeLineVariant}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: false, amount: 0.5 }}
+          animate="visible"            
+          viewport={{ once: true, amount: 0.5 }}
         />
         <ExpContext.Provider
           value={{
