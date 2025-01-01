@@ -14,13 +14,13 @@
   }
 }
 
-$lightened-color: color.adjust(#5753C9, $lightness: 3%);
-$darkened-color: color.adjust(#5753C9, $lightness: -4%);
+$lightened-color: color.adjust(#1e1b4b, $lightness: 3%);
+$darkened-color: color.adjust(#1e1b4b, $lightness: -4%);
 
 :root {
-  --secondary: #5753C9;
-  --primary: #A0AFFF;
-  --tertiary: #F3A24C;
+  --secondary: #1e1b4b;
+  --primary: #ccffff;
+  --tertiary: #ff7f7f;
   --light-secondary: #{$lightened-color};
   --dark-secondary: #{$darkened-color};
 }
@@ -44,7 +44,7 @@ body {
   height: 100vh;
 
   @media screen and (max-width: 768px) {
-    height: auto;
+    height: 100%;
     min-height: 100vh;
   }
 }

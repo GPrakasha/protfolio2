@@ -13,6 +13,7 @@ const Button = ({
     onClick,
     type,
     className,
+    ...props
   }: CommonButtonProps) => {
   return (
     <StyledButton
@@ -22,6 +23,7 @@ const Button = ({
       buttonVariant={buttonVariant}
       type={type}
       className={className}
+      {...props}
     >
       {children}
     </StyledButton>
@@ -32,7 +34,6 @@ const StyledButton = styled(motion.button)<{
     buttonVariant: string;
 }>`
     padding: 10px 20px;
-    border-radius: 5px;
     cursor: pointer;
 
     ${(props) => {

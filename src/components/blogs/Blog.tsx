@@ -166,7 +166,7 @@ const Card = ({
                         className='md:w-1/2 w-full mt-auto'
                     >
                         <Button
-                            className='w-full'
+                            className='w-full rounded'
                             buttonVariant="primary"
                             onClick={handleCardClick}
                         >
@@ -181,11 +181,9 @@ const Card = ({
 
 const RenderCards = (id) => {
   return (
-    <div className="cards-list flex gap-5" key={id}>
+    <div className="cards-list flex gap-5 items-center md:items-start items-center" key={id}>
       {blogs.map((blog, index) => (
-        <div key={`${index}_${id}`} className="card-item">
-          <Card {...blog} />
-        </div>
+          <Card {...blog} key={`${index}_${id}`} />
       ))}
     </div>
   );
@@ -194,20 +192,24 @@ const RenderCards = (id) => {
 export default function Blog() {
     const { isMobile } = useDevice();
     return (
-        <section className="blog-container flex flex-col" id={NAV_ITEM_ID.BLOG}>
-            <motion.h1 className='text-3xl md:text-5xl text-center mx-auto mt-24 md:mb-20 mb-6 text-primary-color'>
-                From My Mind to the World
-            </motion.h1>
-            <div className="cards-infinite-scroll-container m-auto mb-auto mt-0 md:mt-10 overflow-x-scroll md:overflow-x-hidden w-full hide-scrollbar py-5">
-                {RenderCards(0)}
-                {
-                    !isMobile &&
-                        <>
-                        {RenderCards(1)}
-                        {RenderCards(2)}
-                        </>
-                }
-            </div>
-        </section>
+      <section
+        className="blog-container flex flex-col h-full md:py-20 py-10"
+        id={NAV_ITEM_ID.BLOG}
+      >
+        <motion.h1 className="text-3xl md:text-5xl text-center justify-center mx-auto 6 text-primary-color w-2/4">
+          From My Mind to the World
+        </motion.h1>
+        <div className="h-full items-center flex">
+          <div className="cards-infinite-scroll-container overflow-x-scroll md:overflow-x-hidden w-full hide-scrollbar py-7">
+            {RenderCards(0)}
+            {!isMobile && (
+              <>
+                {RenderCards(1)}
+                {RenderCards(2)}
+              </>
+            )}
+          </div>
+        </div>
+      </section>
     );
 }

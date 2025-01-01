@@ -7,6 +7,7 @@ import notes from '../../assets/collaborate.svg';
 import { NAV_ITEM_ID } from '../../config';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
+import Button from '../Button';
 
 interface Project {
   name: string;
@@ -17,7 +18,7 @@ interface Project {
 
 const ProjectCardContainer = styled(motion.div)`
   min-width: 300px;
-  height: 50vh;
+  height: 58vh;
   background: linear-gradient(145deg, #1b1844, #201d50);
   box-shadow:  20px 20px 60px #1a1740,
               -20px -20px 60px #231f56;
@@ -31,7 +32,7 @@ const handleNavToGitHub = (link: string) => {
   window.open(link, '_blank');
 };
 
-const NeumorphismButton = styled(motion.button)`
+const NeumorphismButton = styled(Button)`
   box-shadow:
     2px 3px 10px var(--dark-secondary),
     -5px -5px 10px var(--light-secondary);
@@ -53,6 +54,10 @@ const IconContainer = styled.div`
     width: 80%;
     height: 80%;
     padding: 5px;
+
+    path {
+      stroke: var(--tertiary);
+    }
   }
 `;
 
@@ -97,6 +102,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
         ))}
       </div>
       <NeumorphismButton
+        buttonVariant='primary'
         className="p-3 rounded-xl text-primary-color mt-auto"
         onClick={() => handleNavToGitHub(project.githubLink)}
       >
@@ -155,12 +161,12 @@ export const Projects = () => {
       style={{
         zIndex: 1,
       }}
-      className="flex flex-col justify-center items-center relative bg-indigo-950 h-full"
+      className="flex flex-col justify-center items-center relative bg-indigo-950 h-full md:py-20 py-10"
     >
-      <h1 className="text-3xl md:text-5xl text-center mx-auto mt-24 mb-6 text-primary-color">
+      <h1 className="text-3xl md:text-5xl text-center justify-center mx-auto 6 text-primary-color">
         Crafting with Code
       </h1>
-      <div className="flex md:justify-center justify-start w-full overflow-x-scroll m-auto mb-auto mt-0 md:mt-10 hide-scrollbar py-24 md:pt-0">
+      <div className="flex md:justify-center items-center w-full overflow-x-scroll hide-scrollbar h-full">
         {projects.map((project, index) => (
           <ProjectCard key={index} project={project} />
         ))}

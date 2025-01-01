@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export const useDevice = () => {
-    const [isMobile, setIsMobile] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const windowResize = () => {
         if(window.innerWidth < 768) {
             setIsMobile(true);

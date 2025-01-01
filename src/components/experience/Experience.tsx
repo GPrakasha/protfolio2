@@ -156,7 +156,7 @@ interface Company {
 
 const Chip = ({ label }: { label: string }) => {
   return (
-    <div className="rounded-md px-2 py-1 text-tertiary-color border-amber-200/50 border-2 text-sm bg-indigo-950">
+    <div className="rounded-md px-2 py-1 text-tertiary-color border-tertiary-color border-2 text-sm bg-indigo-950">
       {label}
     </div>
   );

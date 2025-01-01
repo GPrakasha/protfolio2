@@ -3,7 +3,6 @@
     margin: auto;
     align-items: center;
     // gap: 50px;
-    padding: 0 15%;
 
     .text-container {
         display: flex;
@@ -49,7 +48,7 @@
         }
 
         .phoneSvg {
-            stroke: orange;
+            stroke: var(--tertiary);
             margin: auto;
             position: absolute;
             top: -50px;
@@ -71,7 +70,6 @@
     @media screen and (max-width: 768px) {
         flex-direction: column;
         gap: 0;
-        padding: 0 10%;
     }
 
     .toast-message {

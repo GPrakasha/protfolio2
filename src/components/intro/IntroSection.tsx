@@ -1,4 +1,4 @@
-import avatar from '../../assets/avatar1.png';
+import avatar from '../../assets/avatar.png';
 
 const IntroSectionContainer = styled(motion.section)`
     height: 100vh;
@@ -7,10 +7,10 @@ const IntroSectionContainer = styled(motion.section)`
     align-items: center;
     font-size: 3rem;
     background-image: url(${avatar});
-    background-size: contain;
+    background-size: 35%;
     background-repeat: no-repeat;
-    background-position-y: -100px;
-    background-position-x: 25vw;
+    background-position-y: 40%;
+    background-position-x: 85%;
 
     @media (max-width: 768px) {
         background-image: none;
@@ -22,8 +22,8 @@ const IntroContent = styled(motion.div)`
             inset -5px -5px 10px var(--light-secondary);
     border-radius: 10px;
     padding: 20px;
-    margin-left: 10%;
-    max-width: 37vw;
+    margin-left: 4%;
+    max-width: 45vw;
     margin-bottom: 10%;
     margin-right: auto;
 
@@ -31,11 +31,11 @@ const IntroContent = styled(motion.div)`
         margin: auto auto 55% auto;
         max-width: unset;
         background-image: url(${avatar});
-        height: 50vh;
-        background-size: 90vw;
+        height: 320px;
+        background-size: 35%;
         background-repeat: no-repeat;
-        background-position-x: 60px;
-        background-position-y: -30px;
+        background-position-x: 85%;
+        background-position-y: 20%;
         margin-top: 10vh;
     }
 `;
@@ -89,6 +89,7 @@ import styled from 'styled-components';
 import { styles } from '../../styles';
 import Button from '../Button';
 import { NAV_ITEM_ID } from '../../config';
+import { init } from '@emailjs/browser';
 
 export default function IntroSection() {
   return (
@@ -98,7 +99,6 @@ export default function IntroSection() {
     >
       <IntroContent
         className="gap-y-6 flex flex-col"
-        variants={textVariants}
         initial="initial"
         animate="animate"
       >
@@ -122,23 +122,36 @@ export default function IntroSection() {
         </motion.h1>
         <motion.p
           variants={textVariants}
-          className="text-2xl text-primary-color"
+          className="lg:text-2xl md:text-xl text-md text-primary-color"
         >
           Web Developer | Building Intuitive, User-Centered Web Experiences
         </motion.p>
         <motion.div className="flex justify-between">
           <Button
             buttonVariant="secondary"
-            className="md:text-2xl text-sm"
+            className="md:text-xl text-sm rounded"
             onClick={() => {}}
+            variants={textVariants}
+            initial="initial"
+            animate="animate"
           >
             See the latest Works
           </Button>
 
+        <a href={`#${NAV_ITEM_ID.CONTACT}`}>
           <Button
-            buttonVariant="secondary"
-            className="md:text-2xl text-sm"
+            buttonVariant="primary"
+            className="md:text-2xl text-sm fixed rounded-full z-10"
             onClick={() => {}}
+            style={{
+                bottom: '15px',
+                right: '15px',
+            }}
+            variants={{
+                initial: {
+                    position: 'fixed',
+                },
+            }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -155,6 +168,7 @@ export default function IntroSection() {
               />
             </svg>
           </Button>
+        </a>
         </motion.div>
       </IntroContent>
       <SliderContainer className="flex">

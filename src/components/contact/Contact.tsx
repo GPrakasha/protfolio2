@@ -107,7 +107,7 @@ export default function Contact() {
   return (
     <motion.section
       ref={ref}
-      className="contact md:grid flex justify-center items-center md:gap-20 gap-10 bg-indigo-950 md:grid-cols-2 md:flex-col px-4 py-10"
+      className="contact md:grid flex justify-center items-center md:gap-20 gap-10 bg-indigo-950 md:grid-cols-2 md:flex-col px-4 py-9 md:px-40"
       id={NAV_ITEM_ID.CONTACT}
       variants={variants}
       initial="initial"
@@ -135,17 +135,22 @@ export default function Contact() {
         </motion.div>
       </motion.div>
 
-      <motion.div className="contact-form md:col-span-1 w-full self-start md:self-center h-2/3 md:h-auto">
+      <motion.div className="contact-form md:col-span-1 w-full self-start md:self-center h-2/3 md:h-auto justify-end">
         <motion.div
           className="phoneSvg"
-          initial={{ opacity: 1 }}
+          initial={{ 
+            opacity: 1,
+            display: 'block',
+          }}
           whileInView={{ opacity: 0,
             transition: {
               delay: 0,
               duration: 3,
             },
            }}
-        exit={{ opacity: 1 }}
+        exit={{ opacity: 1,
+          display: 'none',
+         }}
         >
           <svg width="100%" height="100%" viewBox="0 0 32.666 32.666" className='m-auto'>
             <motion.path
@@ -193,7 +198,7 @@ export default function Contact() {
             className="gap-y-5 flex flex-col text-primary-color"
             viewport={{ once: false, amount: 0.5 }}
           >
-            <div className='flex flex-col'>
+            <div className='flex flex-col h-auto'>
               <input
                 type="text"
                 name="name"
@@ -216,7 +221,7 @@ export default function Contact() {
               )}
             </div>
 
-            <div className='flex flex-col'>
+            <div className='flex flex-col h-auto'>
               <input
                 type="email"
                 name="email"
@@ -244,7 +249,7 @@ export default function Contact() {
               )}
             </div>
 
-            <div className='flex flex-col'>
+            <div className='flex flex-col h-auto'>
               <textarea
                 name="message"
                 placeholder="Message"
@@ -271,7 +276,7 @@ export default function Contact() {
               )}
             </div>
 
-            <Button buttonVariant={'primary'} type="submit">
+            <Button buttonVariant={'primary'} type="submit" className='rounded'>
               Submit
             </Button>
           </motion.form>
