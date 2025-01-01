@@ -190,7 +190,7 @@ export default function Contact() {
                 ? {
                     opacity: 1,
                     zIndex: 2,
-                    transition: { delay: 3, duration: 0.4 },
+                    transition: { delay: 2, duration: 0.4 },
                   }
                 : {}
             }

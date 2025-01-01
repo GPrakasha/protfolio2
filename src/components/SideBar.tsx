@@ -78,6 +78,19 @@ export default function SideBar() {
         <HamBurgerButton isOpen={isOpen} />
       </MenuButtonContainer>
 
+      <div className='back-drop'
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          zIndex: 8,
+          display: isOpen ? 'block' : 'none',
+        }}
+        onClick={() => setIsOpen(false)}
+      ></div>
       {/* Wrap Sidebar with AnimatePresence */}
       <AnimatePresence>
         {isOpen && (
