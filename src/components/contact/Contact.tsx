@@ -107,7 +107,7 @@ export default function Contact() {
   return (
     <motion.section
       ref={ref}
-      className="contact grid justify-center items-center md:gap-20 gap-10 bg-indigo-950 md:grid-cols-2 grid-cols-1 px-4 py-10"
+      className="contact md:grid flex justify-center items-center md:gap-20 gap-10 bg-indigo-950 md:grid-cols-2 md:flex-col px-4 py-10"
       id={NAV_ITEM_ID.CONTACT}
       variants={variants}
       initial="initial"
@@ -118,24 +118,24 @@ export default function Contact() {
     >
       <motion.div
         variants={variants}
-        className="text-container text-primary-color md:col-span-1 col-row-1 self-end md:self-center mb-3"
+        className="text-container text-primary-color md:col-span-1 w-full self-end md:self-center mb-3 h-2/6 md:h-auto"
       >
-        <h1 className="md:text-7xl text-5xl text-center md:text-left mb-5 md:mb-auto">Let's work together</h1>
+        <h1 className="md:text-7xl text-3xl text-center md:text-left mb-5 md:mb-auto">Let's work together</h1>
         <motion.div variants={variants} className="item mb-4">
-          <h2 className="text-2xl">Email</h2>
+          <h2 className="md:text-2xl text-xl">Email</h2>
           <span className="text-tertiary-color pt-0">gnanaudayan.prakasha@gmail.com</span>
         </motion.div>
         <motion.div variants={variants} className="item mb-4">
-          <h2 className="text-2xl">Address</h2>
+          <h2 className="md:text-2xl text-xl">Address</h2>
           <span className="text-tertiary-color pt-0">Bangalore, India</span>
         </motion.div>
         <motion.div variants={variants} className="item mb-4">
-          <h2 className="text-2xl">Phone</h2>
+          <h2 className="md:text-2xl text-xl">Phone</h2>
           <span className="text-tertiary-color pt-0">+91 9482907053</span>
         </motion.div>
       </motion.div>
 
-      <motion.div className="contact-form md:col-span-1 col-row-1 self-start md:self-center">
+      <motion.div className="contact-form md:col-span-1 w-full self-start md:self-center h-2/3 md:h-auto">
         <motion.div
           className="phoneSvg"
           initial={{ opacity: 1 }}
@@ -282,10 +282,14 @@ export default function Contact() {
         className={`toast-message absolute flex justify-center items-center text-white p-2 rounded-md bg-teal-500 ${
           error ? 'bg-danger-color' : 'bg-success-color'
         }`}
-        initial={{ opacity: 0 }}
+        initial={{ 
+          opacity: 0,
+          display: 'none',
+        }}
         animate={{
           opacity: (showSuccess || error) ? 1 : 0,
           right: (showSuccess || error) ? '20px' : '-250px',
+          display: (showSuccess || error) ? 'block' : 'none',
         }}
         exit={{
           opacity: 0,

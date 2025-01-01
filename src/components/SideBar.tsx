@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { HamBurgerButton } from './HamBurgerButton';
 import { motion, AnimatePresence } from "framer-motion"; // Import AnimatePresence
+import { NAV_ITEM_ID } from '../config';
 
 const StyledSideBarContainer = styled(motion.div)`
   display: flex;
@@ -16,7 +17,7 @@ const StyledSideBarContainer = styled(motion.div)`
   width: 25vw;
   height: 100vh;
   overflow: hidden;
-  z-index: 1;
+  z-index: 9;
 `;
 
 const MenuButtonContainer = styled.div`
@@ -32,20 +33,18 @@ const MenuButtonContainer = styled.div`
   position: fixed;
   top: 20px;
   left: 20px;
-  z-index: 2;
+  z-index: 10;
 `;
 
 export default function SideBar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
-    { name: "Home", link: "#" },
-    { name: "About", link: "#" },
-    { name: "Skills", link: "#" },
-    { name: "Projects", link: "#" },
-    { name: "Experience", link: "#" },
-    { name: "Blog", link: "#" },
-    { name: "Contact", link: "#" },
+    { name: "Home", link: NAV_ITEM_ID.INTRO },
+    { name: "About", link: NAV_ITEM_ID.EXPERIENCE },
+    { name: "Blog", link: NAV_ITEM_ID.BLOG },
+    { name: "Projects", link: NAV_ITEM_ID.PROJECTS },
+    { name: "Contact", link: NAV_ITEM_ID.CONTACT },
   ];
 
   const navItemVariants = {
@@ -107,15 +106,16 @@ export default function SideBar() {
             <motion.div className={`flex flex-col justify-center items-center w-full py-5 px-10 h-full gap-y-2`} variants={navItemVariants}>
               {
                 navLinks.map((link, index) => (
-                  <motion.div
+                  <motion.a
                     className='cursor-pointer'
                     key={index}
                     variants={navItemsVariants}
                     whileHover={{ scale: 1.5 }}
                     whileTap={{ scale: 0.9 }}
+                    href={`#${link.link}`}
                   >
                     {link.name}
-                  </motion.div>
+                  </motion.a>
                 ))
               }
             </motion.div>

@@ -20,13 +20,14 @@ import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { ExpContentType } from "./experience.types";
 import { NAV_ITEM_ID } from "../../config";
 import { useDevice } from "../../hooks/useDevice";
+import bgImage from "../../assets/sunset_bg.jpg";
 
 const AboutMeContainer = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: url("src/assets/sunset_bg.jpg");
+  background-image: url(${bgImage});
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

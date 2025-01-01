@@ -23,7 +23,7 @@ const ProjectCardContainer = styled(motion.div)`
               -20px -20px 60px #231f56;
 
   @media (max-width: 768px) {
-    // height: 70vh;
+    height: 60vh;
   }
 `;
 

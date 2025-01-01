@@ -5,6 +5,7 @@ import Button from '../Button';
 import post1 from '../../assets/post1.png';
 import post3 from '../../assets/post3.png';
 import { useDevice } from '../../hooks/useDevice';
+import { NAV_ITEM_ID } from '../../config';
 
 type Blog = {
     url: string;
@@ -71,7 +72,7 @@ const Card = ({
             opacity: 1,
             x: 0,
             y: 0,
-            width: isMobile < 768 ? "100%" : '100%',
+            width: isMobile ? "100%" : '100%',
             display: '-webkit-box',
             transition: {
                 duration: .3,
@@ -91,7 +92,7 @@ const Card = ({
             opacity: 1,
             x: 0,
             y: 0,
-            width: isMobile < 768 ? "100%" : '360px',
+            width: isMobile ? "100%" : '360px',
             display: 'flex',
             transition: {
                 duration: 0.3,
@@ -193,7 +194,7 @@ const RenderCards = (id) => {
 export default function Blog() {
     const { isMobile } = useDevice();
     return (
-        <section className="blog-container flex flex-col">
+        <section className="blog-container flex flex-col" id={NAV_ITEM_ID.BLOG}>
             <motion.h1 className='text-3xl md:text-5xl text-center mx-auto mt-24 md:mb-20 mb-6 text-primary-color'>
                 From My Mind to the World
             </motion.h1>

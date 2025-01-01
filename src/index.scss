@@ -40,7 +40,7 @@ body {
 }
 
 .scroll-snap-container > section {
-  scroll-snap-align: center;
+  scroll-snap-align: start;
   height: 100vh;
 
   @media screen and (max-width: 768px) {
